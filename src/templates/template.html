@@ -1,0 +1,158 @@
+<extends src="src/layouts/master.html">
+  <block name="template">
+    <div class="px-24 py-32">
+      <!--[if mso]><table align="center" cellpadding="0" cellspacing="0" role="presentation" style="width: 600px; padding: 24px 32px;"><tr><td><![endif]-->
+        <table class="w-full">
+          <tr>
+            <td class="text-center">
+              <a href="::webViewUrl::" class="text-sm text-gray-700 underline">View email in browser</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="h-16"></td>
+          </tr>
+          <tr>
+            <td class="text-center text-sm text-gray-600">
+              This mail was sent using <a href="https://mailcoach.app" class="text-gray-700 underline">Mailcoach</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="h-16"></td>
+          </tr>
+          <tr>
+            <td>
+              <table align="center" class="mx-auto">
+                <tr>
+                  <th class="p-16 pr-0 sm:block sm:px-0">
+                    <img src="https://freek.dev/images/murzicoon.png" class="w-48">
+                  </th>
+                  <th class="p-16 sm:p-0 text-left font-normal sm:block sm:text-center">
+                    <h1 class="m-0 uppercase text-xl leading-32 no-underline text-gray-900">freek.dev</h1>
+                    <p class="m-0 text-gray-700">Hi, welcome to the @{{ $editionNumber }} freek.dev newsletter!</p>
+                  </th>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="h-32"></td>
+          </tr>
+          <tr>
+            <td>
+              <hr class="border-0 bg-gray-200 text-gray-200 h-px m-0">
+            </td>
+          </tr>
+        </table>
+        <ul class="list-none p-0 m-0">
+          @foreach($recentPosts as $post)
+          <li class="text-white">
+            <h2 class="mb-2">
+              <a href="@{{ $post->promotional_url }}" class="text-lg no-underline text-gray-900">@{{ $post->title }}</a>
+            </h2>
+            <p class="m-0 text-base text-gray-800">@{{ $post->newsletter_excerpt }}</p>
+            <hr class="border-0 bg-gray-200 text-gray-200 h-px my-24">
+          </li>
+          @endforeach
+        </ul>
+        @if($recentTweets->count())
+        <table class="w-full">
+          <tr>
+            <td class="p-24 bg-blue-50">
+              <h3 class="m-0 text-xl mb-12">Meanwhile on Twitter</h3>
+              <ul align="left" class="o-ml-24 list-disc m-0 ml-20 p-0 text-base">
+                @foreach($recentTweets as $tweet)
+                <li class="m-0 mb-4 text-left">
+                  <a href="@{{ $tweet->promotional_url }}" class="text-gray-800">@{{ $tweet->title }}</a>
+                </li>
+                @endforeach
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="leading-4 bg-blue-300">&zwnj;</td>
+          </tr>
+          <tr>
+            <td class="h-32"></td>
+          </tr>
+        </table>
+        @endif
+        @if($communityLinks->count())
+        <table class="w-full">
+          <tr>
+            <td class="p-24 bg-orange-50">
+              <h3 class="m-0 text-xl mb-12">Community Links</h3>
+              <p class="m-0 mb-16 text-base text-gray-900">Did you write or stumbled across a blog post, tutorial or video that might be good to appear in this section? <a class="text-gray-800" href="https://freek.dev/links">Submit it here</a>.</p>
+              <ul align="left" class="o-ml-24 list-disc m-0 ml-20 p-0 text-base">
+                @foreach($communityLinks as $link)
+                <li class="m-0 mb-4 text-left">
+                  <a href="@{{ $link->url }}" class="text-gray-800">@{{ $link->title }}</a> (submitted by @{{ $link->user->name }})
+                </li>
+                @endif
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="leading-4 bg-orange-300">&zwnj;</td>
+          </tr>
+          <tr>
+            <td class="h-32"></td>
+          </tr>
+        </table>
+        @endif
+        <table class="w-full">
+          <tr>
+            <td class="p-24 bg-cool-gray-100">
+              <h3 class="m-0 text-xl mb-12">From the archives</h3>
+              <ul align="left" class="o-ml-24 list-disc m-0 ml-20 p-0 text-base">
+                @foreach($oldPosts as $post)
+                <li class="m-0 mb-4 text-left">
+                  <a href="@{{ $post->promotional_url }}" class="text-gray-800">@{{ $post->title }}</a>
+                </li>
+                @endif
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="leading-4 bg-cool-gray-300">&zwnj;</td>
+          </tr>
+        </table>
+        <hr class="border-0 bg-gray-200 text-gray-200 h-px my-32">
+        <p class="m-0 text-sm text-center text-gray-600">Thanks for reading! Did you like this edition of the newsletter?</p>
+        <table class="w-full">
+          <tr>
+            <td class="w-1/2 py-32 px-0 text-center align-top">
+              <a
+                href="@{{ route('newsletter.like', ['edition' => $editionNumber]) }}"
+                class="inline-block py-12 px-24 text-2xl sm:text-lg sm:leading-32 text-center no-underline rounded text-white bg-green-300 hover:bg-green-400"
+              ><!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%; mso-text-raise:24px;">&nbsp;</i><![endif]--><span style="mso-text-raise: 12px;">Yes!</span><!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%;">&nbsp;</i><![endif]--></a>
+              <p class="m-0 mt-10 text-sm text-gray-900">Really liked it.</p>
+            </td>
+            <td class="w-1/2 py-32 px-0 text-center align-top">
+              <a
+                href="@{{ route('newsletter.dislike', ['edition' => $editionNumber]) }}"
+                class="inline-block py-12 px-24 text-2xl sm:text-lg sm:leading-32 text-center no-underline rounded text-white bg-red-300 hover:bg-red-400"
+              ><!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%; mso-text-raise:24px;">&nbsp;</i><![endif]--><span style="mso-text-raise: 12px;">Nope...</span><!--[if mso]><i style="letter-spacing: 24px; mso-font-width: -100%;">&nbsp;</i><![endif]--></a>
+              <p class="m-0 mt-10 text-sm text-gray-900">It could be improved.</p>
+            </td>
+          </tr>
+        </table>
+        <hr class="border-0 bg-gray-200 text-gray-200 h-px m-0 mb-32">
+        <div class="text-sm text-gray-600 leading-20">
+          <p class="m-0 mb-16">
+              Advertisement opportunities at
+              <a href="@{{ url('/advertising') }}" class="text-gray-600">freek.dev/advertising</a>.
+          </p>
+          <p class="m-0 mb-16">
+            You are receiving this mail because you've subscribed at
+            <a href="@{{ config('app.url') }}" class="text-gray-600">freek.dev</a>.
+            Opt out any time.
+            <a href="::unsubscribeUrl::" class="text-gray-600">Unsubscribe</a>.
+          </p>
+          <p class="m-0 mb-16">
+            This mail was sent using <a class="text-gray-600" href="https://mailcoach.app">Mailcoach</a>.
+          </p>
+        </div>
+      <!--[if mso]></td></tr></table><![endif]-->
+    </div>
+  </block>
+</extends>
